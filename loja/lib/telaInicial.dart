@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:loja/cadastro.dart';
 import 'package:loja/login.dart';
+import 'package:intl/date_symbol_data_http_request.dart';
 
 class TelaInicial extends StatelessWidget {
-  final String _img = "../assets/LojaHeric.jpg";
+  TelaInicial() {
+    //initializeDateFormatting('pt_BR', 'http://localhost:57275/');
+  }
+
+  final String _img = "assets/LojaHeric.jpg";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 0, 0, 0),
         actions: [
+          // ATIVAR QUANDO PRECISAR CADASTRAR
           Padding(
             padding: EdgeInsets.only(right: 10),
             child: ElevatedButton(
@@ -23,7 +30,7 @@ class TelaInicial extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 14, 47, 157),
-                foregroundColor: Colors.white, // Cor do texto corrigida para melhor visibilidade
+                foregroundColor: Colors.white,
               ),
               child: Text("Cadastrar"),
             ),
@@ -34,7 +41,7 @@ class TelaInicial extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => login()), // Nome da classe corrigido
+                  MaterialPageRoute(builder: (context) => login()),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -49,14 +56,11 @@ class TelaInicial extends StatelessWidget {
       body: Center(
         child: Container(
           width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.black,
-            border: Border.all(),
-          ),
+          decoration: BoxDecoration(color: Colors.black, border: Border.all()),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(_img, fit: BoxFit.cover, height: 400),
+              Image.asset(_img, fit: BoxFit.cover, height: 200),
               SizedBox(height: 10),
             ],
           ),

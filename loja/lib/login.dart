@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loja/inicio.dart';
 
-
 class login extends StatefulWidget {
   @override
   _loginState createState() => _loginState();
@@ -16,6 +15,7 @@ class _loginState extends State<login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text(
           "login",
           style: TextStyle(
@@ -46,16 +46,19 @@ class _loginState extends State<login> {
             SizedBox(height: 10),
             TextField(
               obscureText: _visivel,
-              controller: _senhaController, 
+              controller: _senhaController,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.lock),
                 suffixIcon: IconButton(
                   onPressed: () {
                     setState(() {
-                      _visivel = !_visivel; 
+                      _visivel = !_visivel;
                     });
                   },
-                  icon: _visivel ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                  icon:
+                      _visivel
+                          ? Icon(Icons.visibility)
+                          : Icon(Icons.visibility_off),
                 ),
                 labelText: "Senha",
                 border: OutlineInputBorder(
@@ -63,15 +66,36 @@ class _loginState extends State<login> {
                 ),
               ),
             ),
-            SizedBox(height: 20), 
-             ElevatedButton(
+            SizedBox(height: 20),
+            ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Inicio()),
-                );
+                String nome = _nomeController.text;
+                String senha = _senhaController.text;
+
+                if (nome == "Heric" && senha == "123456") {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Inicio()),
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder:
+                        (context) => AlertDialog(
+                          title: const Text("Erro de login"),
+                          content: const Text("Usuário ou senha incorretos."),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text("OK"),
+                            ),
+                          ],
+                        ),
+                  );
+                }
               },
-              child: Text("Proximo"),),
+              child: const Text("Próximo"),
+            ),
             Spacer(),
 
             ElevatedButton(
@@ -79,7 +103,7 @@ class _loginState extends State<login> {
                 Navigator.pop(context);
               },
               child: Text("Voltar"),
-            ),            
+            ),
           ],
         ),
       ),

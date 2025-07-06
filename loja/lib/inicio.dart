@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loja/estoque.dart';
 import 'package:loja/pagamentos.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
+
 
 
 class Inicio extends StatefulWidget {
@@ -34,50 +34,54 @@ class InicioState extends State<Inicio> {
     final weekDays = _getWeekDays(_focusedDay);
 
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
-        title: Text(
-          "Calendário Semanal",
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: const Color.fromARGB(255, 255, 245, 245),
-            letterSpacing: 1.5,
+       appBar: AppBar(
+    iconTheme: IconThemeData(color: Colors.white),
+    title: Text(
+      "Agenda clientes",
+      style: TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+        color: const Color.fromARGB(255, 255, 245, 245),
+        letterSpacing: 1.5,
+      ),
+    ),
+    centerTitle: true,
+    backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+  ),
+  drawer: Drawer(
+    child: ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        DrawerHeader(
+          decoration: BoxDecoration(color: Colors.black),
+          child: Text(
+            "Bem-vindo!",
+            style: TextStyle(color: Colors.white, fontSize: 24),
           ),
         ),
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Estoque()),
-                );
-              },
-              child: Text("Estoque"),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Pagamentos()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 14, 47, 157),
-                foregroundColor: const Color.fromARGB(255, 0, 0, 0),
-              ),
-              child: Text("Pagamento"),
-            ),
-          ),
-        ],
-      ),
+        ListTile(
+          leading: Icon(Icons.message),
+          title: Text("Estoque"),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Estoque()),
+            );
+          },
+        ),
+        // ListTile(
+        //   leading: Icon(Icons.payment),
+        //   title: Text("Pagamentos"),
+        //   onTap: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => Pagamentos()),
+        //     );
+        //   },
+        // ),
+      ],
+    ),
+  ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: ListView.builder(
@@ -85,8 +89,6 @@ class InicioState extends State<Inicio> {
           itemBuilder: (context, index) {
             final day = weekDays[index];
             final events = _events[day] ?? [];
-            //  initializeDateFormatting('pt_BR','http://localhost:57275/');
-            //initializeDateFormatting();
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

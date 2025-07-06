@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:loja/Fun%C3%A7%C3%B5es/botao-padrao.dart';
 import 'package:loja/cadastro.dart';
 import 'package:loja/login.dart';
-import 'package:intl/date_symbol_data_http_request.dart';
 
 class TelaInicial extends StatelessWidget {
   TelaInicial() {
@@ -18,38 +18,13 @@ class TelaInicial extends StatelessWidget {
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 0, 0, 0),
         actions: [
-          // ATIVAR QUANDO PRECISAR CADASTRAR
           Padding(
             padding: EdgeInsets.only(right: 10),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => TelaCadastro()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 14, 47, 157),
-                foregroundColor: Colors.white,
-              ),
-              child: Text("Cadastrar"),
-            ),
+            child: BotaoPadrao(texto: "Cadastrar", destino: TelaCadastro()),
           ),
           Padding(
             padding: EdgeInsets.only(right: 10),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => login()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 14, 47, 157),
-                foregroundColor: Colors.white,
-              ),
-              child: Text("Login"),
-            ),
+            child: BotaoPadrao(texto: "Login", destino: Login())
           ),
         ],
       ),
@@ -68,4 +43,13 @@ class TelaInicial extends StatelessWidget {
       ),
     );
   }
+}
+
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => TelaCadastro(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return child;
+    },
+  );
 }

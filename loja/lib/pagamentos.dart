@@ -12,7 +12,7 @@ class pagamentosState extends State<Pagamentos> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
-        title: Text("paga otario!",
+        title: Text("Pagamentos",
         style: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.bold,

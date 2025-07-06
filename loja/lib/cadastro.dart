@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loja/inicio.dart';
+import 'package:loja/databasehelper.dart';
+import 'package:flutter/services.dart';
 
 class TelaCadastro extends StatefulWidget {
   @override
@@ -7,11 +9,38 @@ class TelaCadastro extends StatefulWidget {
 }
 
 class _TelaCadastroState extends State<TelaCadastro> {
-  final _numero=TextEditingController();
   final _nomeController = TextEditingController();
-  final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
   bool _visivel = true;
+
+  void _cadastrar() async {
+    String nome = _nomeController.text.trim();
+    String senha = _senhaController.text.trim();
+
+    if (nome.isEmpty || senha.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Por favor, preencha todos os campos")),
+      );
+      return;
+    }
+
+    try {
+      await DatabaseHelper().cadastrarUsuario(nome, senha);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Cadastro realizado com sucesso!")),
+      );
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Inicio()),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Erro ao cadastrar: usuário já existe.")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,29 +68,7 @@ class _TelaCadastroState extends State<TelaCadastro> {
               controller: _nomeController,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.person),
-                labelText: "nome",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                ),
-              ),
-            ),
-             SizedBox(height: 10),
-            TextField(
-              controller: _numero,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.person),
-                labelText: "Numero de Telefone (00)0000-0000",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.person),
-                labelText: "email",
+                labelText: "Nome",
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(50)),
                 ),
@@ -89,19 +96,15 @@ class _TelaCadastroState extends State<TelaCadastro> {
                   borderRadius: BorderRadius.all(Radius.circular(50)),
                 ),
               ),
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,  //  apenas números
+                LengthLimitingTextInputFormatter(6),    //  6 dígitos
+              ],
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Inicio()),
-                );
-              },
-              child: Text("Proximo"),
-            ),
+            ElevatedButton(onPressed: _cadastrar, child: Text("Próximo")),
             Spacer(),
-
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
